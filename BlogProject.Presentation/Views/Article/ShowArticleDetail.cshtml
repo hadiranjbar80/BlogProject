@@ -1,0 +1,17 @@
+﻿@model BlogProject.Domain.ViewModels.ShowArticleDetailViewModel
+@{
+    ViewData["Title"] = "";
+}
+
+<div class="row">
+    <div>
+       <img src="~/Images/Articles/@Model.ImageName" />
+    </div>
+    <h4>@Model.Title</h4>
+    <p>@Model.Description</p>
+    <p>@Model.DateCreated</p>
+    <a asp-action="ArticleQuestions" asp-controller="Article"
+           asp-route-articleId="@Model.Id" class="btn btn-success">
+           پرسش و پاسخ
+    </a>
+</div>

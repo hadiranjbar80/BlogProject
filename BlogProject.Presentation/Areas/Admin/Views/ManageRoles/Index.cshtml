@@ -1,0 +1,32 @@
+﻿@model List<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+    ViewData["Title"] = "نقش‌ها";
+}
+
+<p>
+    <a asp-action="AddRole" class="btn btn-success">نقش جدید</a>
+</p>
+
+@if (!Model.Any())
+{
+    <h4 class="alert alert-warning">موردی یافت نشد</h4>
+}
+else
+{
+    for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="card mt-2">
+            <div class="card-body">
+                عنوان نقش: <strong>@Model[i].Name</strong>
+            </div>
+            <div class="card-footer">
+                <form asp-action="DeleteRole" asp-route-id="@Model[i].Id" method="post">
+                    <a class="btn btn-warning" asp-controller="ManageRoles" asp-action="EditRole" asp-route-id="@Model[i].Id">ویرایش</a>
+                
+                    <button type="submit" class="btn btn-danger">حذف</button>
+                </form>
+            </div>
+        </div>
+    }
+}

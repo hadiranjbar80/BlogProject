@@ -1,0 +1,86 @@
+﻿@model BlogProject.Domain.ViewModels.UpdateArticleViewModel
+
+@{
+    ViewData["Title"] = "ویرایش مقاله";
+}
+
+
+<h4>ویرایش مقاله</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Update" enctype="multipart/form-data">
+            @Html.HiddenFor(a=>a.Id)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="form-group col-6">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="ShortDescription" class="control-label"></label>
+                    <input asp-for="ShortDescription" class="form-control" />
+                    <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" id="compose-textarea" class="form-control" style="height: 300px" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="Tags" class="control-label"></label>
+                    <input asp-for="Tags" class="form-control" />
+                    <span asp-validation-for="Tags" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="ArticleImage" class="control-label"></label>
+                    <input asp-for="ArticleImage" class="form-control" />
+                    <span asp-validation-for="ArticleImage" class="text-danger"></span>
+                </div>
+                <div class="panel-category">
+                    <div class="panel-categoty-title">انتخاب گروه</div>
+                    <span class="text-danger">@ViewBag.CategoryError</span>
+                    <div class="panel-category-body">
+                        @{
+                            List<ArticleCategory> categories = ViewBag.Categories;
+                            List<CategoryToArticle> relatedCategories = ViewBag.ArticleCategories;
+                        }
+                        <ul>
+                            @foreach (var category in categories.Where(c => c.ParentId == null))
+                            {
+                                <li>
+                                    <input type="checkbox" @((relatedCategories.Any(c => c.CategoryId == category.Id)) ? "checked" : "") name="SelectedCategories" value="@category.Id" /> <span>@category.Title</span>
+                                    @if (categories.Any(c => c.ParentId == category.Id))
+                                    {
+                                        <ul>
+                                            @foreach (var subCategory in categories.Where(c => c.ParentId == category.Id))
+                                            {
+                                                <li>
+                                                    <input type="checkbox" @((relatedCategories.Any(c => c.CategoryId == subCategory.Id)) ? "checked" : "") name="SelectedCategories" value="@subCategory.Id" /> <span>@subCategory.Title</span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group col-6">
+                    <input type="submit" value="ویرایش" class="btn btn-warning" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">بازگشت</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

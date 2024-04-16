@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BlogProject.Domain.Models.ArticleCategory>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">گروه جدید</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                عنوان
+            </th>
+            <th>
+                زیرگروه
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @if(item.Parent != null && item.Parent.Any()){
+                        <ul>
+                            @foreach(var subItem in item.Parent){
+                                <li>
+                                    @subItem.Title
+                                    <a asp-action="Update" class="btn btn-warning" asp-route-id="@subItem.Id">ویرایش</a> |
+                                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@subItem.Id">حذف</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Update" class="btn btn-warning" asp-route-id="@item.Id">ویرایش</a> |
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">حذف</a> |
+                    <a asp-action="Create" class="btn btn-primary" asp-route-id="@item.Id">افزودن زیرگروه</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,42 @@
+﻿@model BlogProject.Domain.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "ورود به سایت";
+}
+
+<h1>ورود به سایت</h1>
+
+<hr/>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+            
+            @if (ViewBag.Message != null)
+            {
+                <div class="text-danger">@ViewBag.Message</div>
+            }
+
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+        
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ورود" class="btn btn-primary"/>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

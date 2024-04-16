@@ -1,0 +1,117 @@
+﻿@model IEnumerable<BlogProject.Domain.ViewModels.ArticleListViewModel>
+@{
+    ViewData["Title"] = "لیست مقاله‌ها";
+
+    Pager pager = new Pager();
+
+    int currentPage = 0;
+
+    if(ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        currentPage = pager.CurrentPage;
+    }
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">مقاله جدید</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tags)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @if (Model.Any())
+    {
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="image-wrapper">
+                        <img src="/Images/Articles/@item.ImageName" class="thumbnail" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShortDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tags)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateCreated)
+                    </td>
+                    <td>
+                        <a asp-action="Update" class="btn btn-warning" asp-route-id="@item.Id">ویرایش</a> |
+                        <a class="btn btn-danger" onclick="DeleteArticle(@item.Id)">حذف</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+
+<div class="container">
+    @if(pager.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+
+            @if(pager.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-controller="Article" asp-action="Index" 
+                        asp-area="Admin" asp-route-pageId="1">صفحه اول</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" asp-controller="Article" asp-action="Index" 
+                        asp-area="Admin" asp-route-pageId="@(pager.CurrentPage - 1)">قبلی</a>
+                </li>
+            }
+
+            @for(int pge = pager.StartPage; pge <= pager.EndPage; pge++)
+            {
+                <li class="page-item @(pge == pager.CurrentPage?"active":"")">
+                    <a class="page-link" asp-controller="Article" asp-action="Index" asp-area="Admin" asp-route-pageId="@pge">@pge</a>
+                </li>
+            }
+
+            @if(pager.CurrentPage < pager.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-controller="Article" asp-action="Index"
+                        asp-area="Admin" asp-route-pageId="@(pager.CurrentPage + 1)">بعدی</a>
+                </li>
+                 <li class="page-item">
+                    <a class="page-link" asp-controller="Article" asp-action="Index"
+                        asp-area="Admin" asp-route-pageId="@(pager.TotalPages)">صفحه آخر</a>
+                </li>
+            }
+
+        </ul>
+    }
+</div>
+
+<partial name="_Modal" />
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}
+

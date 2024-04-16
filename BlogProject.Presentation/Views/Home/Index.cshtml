@@ -1,0 +1,25 @@
+﻿@model List<BlogProject.Domain.ViewModels.ShowArticlesListViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (!Model.Any())
+{
+    <h4 class="alert alert-warning">موردی یافت نشد</h4>
+}
+else
+{
+    foreach (var item in Model)
+    {
+        <div class="card mt-2 col-3">
+            <div class="card-body">
+                <img src="~/Images/Articles/@item.ImageName" style="width: 200px;height:200px"/>
+                <p>@item.ShortDescription</p>
+                <p>@item.DateCreated</p>
+            </div>
+            <div class="card-footer">
+                <a asp-action="ShowArticleDetail" asp-controller="Article" asp-route-articleId="@item.Id" class="btn btn-secondary">جزئیات</a>
+            </div>
+        </div>
+    }
+}
