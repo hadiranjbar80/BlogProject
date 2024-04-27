@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace BlogProject.Presentation.Controllers
 {
-    //[Authorize("User")]
+    [Authorize( Roles = "User")]
     public class QuestionController : BaseController
     {
         private readonly IQuestionService _questionService;

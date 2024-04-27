@@ -194,21 +194,6 @@
     <script src="/AdminContent/plugins/iCheck/icheck.min.js"></script>
     <script src="/AdminContent/plugins/ckeditor/ckeditor.js"></script>
     <!-- Page Script -->
-    <script>
-        $(function () {
-            //Add text editor
-            ClassicEditor
-                .create(document.querySelector('#compose-textarea'))
-                .then(function (editor) {
-                    // The editor instance
-                })
-                .catch(function (error) {
-                    console.error(error)
-                })
-
-            //    $('#compose-textarea').wysihtml5()
-        })
-    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

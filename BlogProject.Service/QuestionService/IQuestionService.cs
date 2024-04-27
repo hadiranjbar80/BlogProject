@@ -10,6 +10,7 @@ namespace BlogProject.Service.QuestionService
     public interface IQuestionService
     {
         Task<List<Question>> GetQuestionsAsync();
+        Task<List<Question>> GetLastCreatedQuestionsAsync();
         Task CreateNewQuestionAsync(Question question);
         Task UpdateQuestion(Question question);
         Task DeleteQuestionAsync(Question question);

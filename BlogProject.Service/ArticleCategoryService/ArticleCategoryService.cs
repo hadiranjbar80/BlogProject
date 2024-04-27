@@ -32,7 +32,7 @@ namespace BlogProject.Service.ArticleCategoryService
 
         public async Task<List<ArticleCategory>> GetArticleCategoriesAsync()
         {
-            return await _repository.GetAllAsync();
+            return await _context.ArticleCategories.Include(a => a.CategoryToArticles).ToListAsync();
         }
 
         public async Task<ArticleCategory> GetCategoryByIdAsync(int categoryId)

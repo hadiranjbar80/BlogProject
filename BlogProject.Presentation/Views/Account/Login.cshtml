@@ -4,39 +4,44 @@
     ViewData["Title"] = "ورود به سایت";
 }
 
-<h1>ورود به سایت</h1>
+<form asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl" class="loginsec">
+    <h4>ورود به سایت</h4>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<hr/>
+    @if (ViewBag.Message != null)
+    {
+        <div class="text-danger">@ViewBag.Message</div>
+    }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl">
-            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-            
-            @if (ViewBag.Message != null)
-            {
-                <div class="text-danger">@ViewBag.Message</div>
-            }
-
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-        
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control"/>
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="ورود" class="btn btn-primary"/>
-            </div>
-        </form>
-
+    <div class="username-input">
+        <div class="div486">نام کاربری</div>
+        <div class="username19">
+            <input asp-for="UserName" class="input" placeholder="نام کاربری" />
+        </div>
+        <span asp-validation-for="UserName" class="text-danger"></span>
     </div>
-</div>
+    <div class="username-input1">
+        <div class="div487">کلمه‌عبور</div>
+        <div class="passbox1">
+            <input asp-for="Password" class="input" placeholder="کلمه عبور" />
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="forgot-password-btn">
+        <div class="parent">
+            <div class="div488"><a href="/forgotpassword">فراموشی کلمه‌عبور</a></div>
+        </div>
+    </div>
+    <button class="submitbtn">
+        <div class="div490">ورود به سایت</div>
+    </button>
+    <div class="wrapper">
+        <div class="div491"><a href="/register">ثبت نام در سایت</a></div>
+    </div>
+</form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

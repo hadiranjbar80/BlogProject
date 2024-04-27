@@ -30,6 +30,11 @@ namespace BlogProject.Service.QuestionService
             await _repository.Delete(question);
         }
 
+        public async Task<List<Question>> GetLastCreatedQuestionsAsync()
+        {
+            return await _context.Questions.OrderByDescending(q=>q.DateCreated).Take(8).ToListAsync();
+        }
+
         public async Task<Question> GetQuestionByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);

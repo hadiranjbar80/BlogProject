@@ -1,0 +1,31 @@
+﻿@model List<Question>
+
+<div class="last-ques">
+    <div class="qa-desc">
+        <h2 class="h2">پرسش‌های اخیر</h2>
+    </div>
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <a href="#" class="question">
+            <div class="deatils">
+                <div class="date">
+                    <div class="div7">@Model[i].DateCreated</div>
+                    <img class="calendar-icon"
+                         loading="lazy"
+                         alt=""
+                         src="~/public/calendar.svg" />
+                </div>
+                <div class="visit">
+                    <div class="div8">۲۰۰</div>
+                    <img class="eyefill-icon"
+                         loading="lazy"
+                         alt=""
+                         src="~/public/eyefill.svg" />
+                </div>
+            </div>
+            <div class="q-title">
+                <div class="div9">@Model[i].Title</div>
+            </div>
+        </a>
+    }
+</div>

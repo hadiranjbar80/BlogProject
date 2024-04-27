@@ -1,25 +1,60 @@
 ﻿@model List<BlogProject.Domain.ViewModels.ShowArticlesListViewModel>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "آموزش برنامه نویسی";
 }
 
 @if (!Model.Any())
 {
-    <h4 class="alert alert-warning">موردی یافت نشد</h4>
+    <div>موردی یافت نشد </div>
 }
 else
 {
     foreach (var item in Model)
     {
-        <div class="card mt-2 col-3">
-            <div class="card-body">
-                <img src="~/Images/Articles/@item.ImageName" style="width: 200px;height:200px"/>
-                <p>@item.ShortDescription</p>
-                <p>@item.DateCreated</p>
+
+
+        <div class="pic" style="width:100%">
+            <div class="button">
+                <div class="date6">
+                    <div class="deatils6">
+                        <div class="date7">
+                            <div class="div35">@item.DateCreated.ToString("yyyy/mm/mm")</div>
+                            <img class="calendar-icon6"
+                                 alt=""
+                                 src="./public/calendar.svg" />
+                        </div>
+                        <div class="visit6">
+                            <div class="div36">۲۰۰</div>
+                            <img class="eyefill-icon6"
+                                 alt=""
+                                 src="./public/eyefill.svg" />
+                        </div>
+                    </div>
+                    <div class="title-desc">
+                        <div class="title">
+                            <h3 class="h31">@item.Title</h3>
+                        </div>
+                        <div class="desc">
+                            <div class="div37">
+                                @item.ShortDescription
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="more-button">
+                    <a asp-action="ShowArticleDetail" asp-controller="Article" asp-route-articleId="@item.Id" class="div38">جرئیات</a>
+                </button>
             </div>
-            <div class="card-footer">
-                <a asp-action="ShowArticleDetail" asp-controller="Article" asp-route-articleId="@item.Id" class="btn btn-secondary">جزئیات</a>
-            </div>
+            <img class="pic-icon"
+                 loading="lazy"
+                 alt=""
+                 src="./Images/Articles/@item.ImageName" />
         </div>
+    }
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }

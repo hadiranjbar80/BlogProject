@@ -1,55 +1,194 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BlogProject.Presentation</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/BlogProject.Presentation.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" asp-append-version="true" /> 
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" asp-append-version="true" />
+    
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BlogProject.Presentation</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">خروج</a>
-                            </li>
-                        }
-                    </ul>
+    <div class="desktop-2">
+        <main class="top-memu-parent">
+            <header class="top-memu">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="logout" href="/logout">خروج <img src="~/public/Logout.svg" /></a>
+                }
+                else
+                {
+                    <div class="account">
+                        <div class="h3">
+                            <a href="/login">ورود</a>/
+                            <a href="/register">ثبت نام</a>
+                        </div>
+                        <img class="useroutline-icon"
+                             alt=""
+                             src="~/public/useroutline.svg" />
+                    </div>
+                }
+                <div class="links-parent">
+                    <div class="links">
+                        <div class="qa">
+                            <a href="#" class="div">پرسش و پاسخ</a>
+                        </div>
+                        <div class="archive">
+                            <a href="#" class="div1">آرشیو مقاله‌ها</a>
+                        </div>
+                        <div class="categories">
+                            <a href="#" class="div2">دسته بندی‌ها</a>
+                            <img class="chevrondown-icon"
+                                 loading="lazy"
+                                 alt=""
+                                 src="~/public/chevrondown.svg" />
+                        </div>
+                        <div class="home">
+                            <a href="/" class="div3">خانه</a>
+                        </div>
+                    </div>
+                    <img class="logosvg-icon"
+                         loading="lazy"
+                         alt=""
+                         src="~/public/logosvg.svg" />
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a class="logout-small" href="/logout">خروج <img src="~/public/Logout.svg" /></a>
+                }
+                else
+                {
+                    <div class="account-small">
+                        <div class="h3">
+                            <a href="/login">ورود</a>/
+                            <a href="/register">ثبت نام</a>
+                        </div>
+                        <img class="useroutline-icon"
+                             alt=""
+                             src="~/public/useroutline.svg" />
+                    </div>
+                }
+                <div id="menu-bar" class="menu-bar">
+                    <section class="x-parent">
+
+                        <section class="links6">
+                            <div class="qa6">
+                                <a href="#" class="div475">پرسش و پاسخ</a>
+                            </div>
+                            <div class="archive6">
+                                <a href="#" class="div476">آرشیو مقاله‌ها</a>
+                            </div>
+                            <div class="categories13">
+                                <a href="#" class="div477">دسته بندی‌ها</a>
+                                <img class="chevrondown-icon6"
+                                     loading="lazy"
+                                     alt=""
+                                     src="~/public/chevrondown.svg" />
+
+                            </div>
+                            <div class="home6">
+                                <a href="#" class="div478">خانه</a>
+                            </div>
+                        </section>
+                        <img onclick="closeNav()" class="x-icon" alt="" src="~/public/x.svg" />
+                    </section>
+
+                </div>
+                <a id="menu-btn" href="#" onclick="openNav()" class="menu-button">
+                    <img src="~/public/menu.svg" />
+                </a>
+            </header>
+            <div class="navigator">
+                <div class="brand-name">
+                    <b class="b">بلاگ</b>
+                </div>
+                <div class="navigator1">
+                    <div class="navigator-home">
+                        <div class="div6">خانه /</div>
+                    </div>
+                    <div class="navigator-home">
+                        <div class="div5">مقاله‌ها /</div>
+                    </div>
+                    <div class="navigator-home">
+                        <div class="div4">آموزش برنامه نویسی</div>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+            <section class="frame-wrapper">
+                <div class="frame-parent">
+                    <div class="search-box-parent">
+                        <div class="search-box">
+                            <div class="search-parent">
+                                <img class="search-icon" alt="" src="~/public/search.svg" />
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - BlogProject.Presentation - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+                                <img class="frame-child" alt="" src="~/public/vector-3.svg" />
+                            </div>
+                            <input class="search-box-child"
+                                   placeholder="جستجو"
+                                   type="text" />
+                        </div>
+                        @await Component.InvokeAsync("LastQuestions")
+                        @await Component.InvokeAsync("ShowCategories")
+                    </div>
+                    <div class="data-aggregator">
+                        @RenderBody()
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <div class="news-letter-text">
+                <h1 class="h1">عضویت در خبرنامه</h1>
+            </div>
+            <div class="email-box">
+                <img class="mail-icon" alt="" src="~/public/mail.svg" />
+
+                <div class="text">
+                    <div class="div67">ایمیل خود را وارد کنید</div>
+                </div>
+            </div>
+            <img class="footer-child"
+                 loading="lazy"
+                 alt=""
+                 src="~/public/vector-1.svg" />
+
+            <div class="copyright">
+                <div class="footer-icons">
+                    <img class="instagram-icon"
+                         loading="lazy"
+                         alt=""
+                         src="~/public/instagram.svg" />
+
+                    <img class="telegram-icon"
+                         loading="lazy"
+                         alt=""
+                         src="~/public/telegram.svg" />
+
+                    <img class="youtube-icon"
+                         loading="lazy"
+                         alt=""
+                         src="~/public/youtube.svg" />
+                </div>
+                <div class="copytext">
+                    <div class="div68">طراحی شده توسط هادی رنجبر</div>
+                </div>
+            </div>
+        </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="~/js/site.js"></script>
     @await Html.PartialAsync("_notificationPartial")
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
+
 </html>

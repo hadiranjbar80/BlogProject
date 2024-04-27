@@ -1,6 +1,6 @@
 ﻿@model BlogProject.Domain.ViewModels.ShowArticleDetailViewModel
 @{
-    ViewData["Title"] = "";
+    ViewData["Title"] = Model.Title;
 }
 
 <div class="row">
@@ -15,3 +15,9 @@
            پرسش و پاسخ
     </a>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

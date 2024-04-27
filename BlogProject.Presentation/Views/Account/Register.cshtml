@@ -4,38 +4,50 @@
     ViewData["Title"] = "ثبت نام";
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <form asp-action="Register" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row">
-                <div class="form-group col-6">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group col-6">
-                    <label asp-for="UserName" class="control-label"></label>
-                    <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>
-                <div class="form-group col-6">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group col-6">
-                    <label asp-for="ConfirmPassword" class="control-label"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group col-6">
-                    <input type="submit" value="ثبت نام" class="btn btn-success" />
-                </div>
-            </div>
-        </form>
+<form class="registersec" asp-action="Register" method="post">
+    <h4>ثبت نام در سایت</h4>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="usersec">
+        <div class="userlabel">
+            <div class="div480">نام کاربری</div>
+        </div>
+        <div class="username18">
+            <input asp-for="UserName" class="input" placeholder="نام کاربری" />
+        </div>
+        <span asp-validation-for="UserName" class="text-danger"></span>
     </div>
-</div>
+    <div class="emailsec">
+        <div class="email">
+            <div class="div481">ایمیل</div>
+        </div>
+        <div class="emailbox">
+            <input asp-for="Email" class="input" placeholder="ایمیل" />
+        </div>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="passsec">
+        <div class="pass">
+            <div class="div482">کلمه عبور</div>
+        </div>
+        <div class="passbox">
+            <input asp-for="Password" class="input" placeholder="کلمه عبور" />
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="confirmpasssec">
+        <div class="confirmpass">
+            <div class="div483">تکرار کلمه عبور</div>
+        </div>
+        <div class="confirmpassbox">
+            <input asp-for="ConfirmPassword" class="input" placeholder="تکرار کلمه عبور" />
+        </div>
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+    <button class="submitbtn">
+        <div class="div484">ثبت نام</div>
+    </button>
+    <div class="div485">حساب کاربری دارید؟ <a href="/login">ورود به سایت</a></div>
+</form>
 
 @section Scripts {
     @{
