@@ -1,0 +1,42 @@
+﻿@model List<ShowLastQuestionsViewModel>
+@if (Model.Any())
+{
+    <div class="card">
+        <div class="card-header border-transparent">
+            <h3 class="card-title">آخرین سوال‌ها</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0" style="display: block;">
+            <div class="table-responsive">
+                <table class="table m-0">
+                    <thead>
+                        <tr>
+                            <th>نام کاربری</th>
+                            <th>عنوان سوال</th>
+                            <th>تاریخ ثبت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var question in Model)
+                        {
+                            <tr>
+                                <td><a href="pages/examples/invoice.html">@question.UserName</a></td>
+                                <td><a href="">@question.Title</a></td>
+                                <td>@question.DateCreated</td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+        <!-- /.card-body -->
+        @*  <div class="card-footer clearfix" style="display: block;">
+    <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">سفارش جدید</a>
+    <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">مشاهده همه سفار</a>
+    </div> *@
+        <!-- /.card-footer -->
+    </div>
+
+}

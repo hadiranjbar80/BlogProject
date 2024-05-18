@@ -1,18 +1,21 @@
 ﻿@model List<ArticleCategory>
 
-<div class="goups">
-    <div class="categories1">
-        <h2 class="h21">دسته بندی‌ها</h2>
+@if (Model.Any())
+{
+    <div class="goups">
+        <div class="categories1">
+            <h2 class="h21">دسته بندی‌ها</h2>
+        </div>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <a asp-action="Index" asp-controller="Home" asp-route-categoryId="@Model[i].Id" class="actual-item">
+                <div class="div25">
+                    <b class="b1">@Model[i].CategoryToArticles.Count</b>
+                </div>
+                <div class="item">
+                    <div class="div26">@Model[i].Title</div>
+                </div>
+            </a>
+        }
     </div>
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        <a href="#" class="actual-item">
-            <div class="div25">
-                <b class="b1">@Model[i].CategoryToArticles.Count</b>
-            </div>
-            <div class="item">
-                <div class="div26">@Model[i].Title</div>
-            </div>
-        </a>
-    }
-</div>
+}

@@ -1,5 +1,6 @@
 ﻿@model BlogProject.Domain.ViewModels.LoginViewModel
 
+
 @{
     ViewData["Title"] = "ورود به سایت";
 }
@@ -7,6 +8,14 @@
 <form asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl" class="loginsec">
     <h4>ورود به سایت</h4>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    @if (signInManager.IsSignedIn(User) && ViewBag.ReturnUrl != null ||
+        !signInManager.IsSignedIn(User) && ViewBag.ReturnUrl != null)
+    {
+        <div class="alert alert-danger">
+            شما مجوز ورود به بخش درخواست شده را ندارید  
+        </div>
+    }
 
     @if (ViewBag.Message != null)
     {
@@ -29,7 +38,7 @@
     </div>
     <div class="forgot-password-btn">
         <div class="parent">
-            <div class="div488"><a href="/forgotpassword">فراموشی کلمه‌عبور</a></div>
+            <div class="div488"><a href="/account/forgotpassword">فراموشی کلمه‌عبور</a></div>
         </div>
     </div>
     <button class="submitbtn">

@@ -6,7 +6,7 @@
 
     int currentPage = 0;
 
-    if(ViewBag.Pager != null)
+    if (ViewBag.Pager != null)
     {
         pager = ViewBag.Pager;
         currentPage = pager.CurrentPage;
@@ -14,7 +14,7 @@
 }
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">مقاله جدید</a>
+    <a asp-action="Create" class="btn btn-info btn-border-radius waves-effect">مقاله جدید</a>
 </p>
 
 <table class="table">
@@ -25,9 +25,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShortDescription)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Tags)
@@ -50,9 +47,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ShortDescription)
-                    </td>
+
                     <td>
                         @Html.DisplayFor(modelItem => item.Tags)
                     </td>
@@ -60,8 +55,11 @@
                         @Html.DisplayFor(modelItem => item.DateCreated)
                     </td>
                     <td>
-                        <a asp-action="Update" class="btn btn-warning" asp-route-id="@item.Id">ویرایش</a> |
-                        <a class="btn btn-danger" onclick="DeleteArticle(@item.Id)">حذف</a>
+                        <a asp-action="Update" class="btn btn-outline-warning btn-circle waves-effect waves-circle waves-float"
+                           asp-route-id="@item.Id"><i class="material-icons">create</i></a>
+                        <a class="btn btn-outline-info btn-circle waves-effect waves-circle waves-float"
+                           href="/Questions/@item.Id"><i class="material-icons">comment</i></a>
+                        <a class="btn btn-outline-danger btn-circle waves-effect waves-circle waves-floatr" onclick="DeleteArticle(@item.Id)"><i class="material-icons">delete_forever</i></a>
                     </td>
                 </tr>
             }
@@ -70,44 +68,46 @@
 </table>
 
 <div class="container">
-    @if(pager.TotalPages > 0)
+    @if (pager.TotalPages > 0)
     {
         <ul class="pagination justify-content-end">
 
-            @if(pager.CurrentPage > 1)
+            @if (pager.CurrentPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Article" asp-action="Index" 
-                        asp-area="Admin" asp-route-pageId="1">صفحه اول</a>
+                    <a class="page-link" asp-controller="Article" asp-action="Index"
+                       asp-area="Admin" asp-route-pageId="1">صفحه اول</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Article" asp-action="Index" 
-                        asp-area="Admin" asp-route-pageId="@(pager.CurrentPage - 1)">قبلی</a>
+                    <a class="page-link" asp-controller="Article" asp-action="Index"
+                       asp-area="Admin" asp-route-pageId="@(pager.CurrentPage - 1)"><i class="material-icons">keyboard_arrow_right</i></a>
                 </li>
             }
 
-            @for(int pge = pager.StartPage; pge <= pager.EndPage; pge++)
+            @for (int pge = pager.StartPage; pge <= pager.EndPage; pge++)
             {
                 <li class="page-item @(pge == pager.CurrentPage?"active":"")">
                     <a class="page-link" asp-controller="Article" asp-action="Index" asp-area="Admin" asp-route-pageId="@pge">@pge</a>
                 </li>
             }
 
-            @if(pager.CurrentPage < pager.TotalPages)
+            @if (pager.CurrentPage < pager.TotalPages)
             {
                 <li class="page-item">
                     <a class="page-link" asp-controller="Article" asp-action="Index"
-                        asp-area="Admin" asp-route-pageId="@(pager.CurrentPage + 1)">بعدی</a>
+                       asp-area="Admin" asp-route-pageId="@(pager.CurrentPage + 1)"><i class="material-icons">keyboard_arrow_left</i></a>
                 </li>
-                 <li class="page-item">
+                <li class="page-item">
                     <a class="page-link" asp-controller="Article" asp-action="Index"
-                        asp-area="Admin" asp-route-pageId="@(pager.TotalPages)">صفحه آخر</a>
+                       asp-area="Admin" asp-route-pageId="@(pager.TotalPages)">صفحه آخر</a>
                 </li>
             }
 
         </ul>
     }
 </div>
+
+<div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="DataTables_Table_1_info" role="status" aria-live="polite">نمایش 1 تا 10 از 57 ورودی</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_1_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_1_previous"><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="0" tabindex="0" class="page-link">قبلی</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="DataTables_Table_1_next"><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="7" tabindex="0" class="page-link">بعدی</a></li></ul></div></div></div>
 
 <partial name="_Modal" />
 

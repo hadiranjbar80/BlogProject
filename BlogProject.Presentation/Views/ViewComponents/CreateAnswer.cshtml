@@ -1,0 +1,16 @@
+﻿@model CreateAnswerViewModel
+
+<form asp-action="CreateAnswer" asp-controller="Answer" class="createCommentForm">
+    <input type="hidden" asp-for="UserId" />
+    <input type="hidden" asp-for="QuestionId" />
+    <input type="hidden" asp-for="UserEmail" />
+    <input type="hidden" asp-for="Title" />
+
+    <div class="comment-text">
+        <label class="comment-label">پاسخ خود را وارد کنید!</label>
+        <textarea asp-for="Description" class="ckeditor" id="commentText"></textarea>
+        <span class="text-danger" asp-validation-for="Description"></span>
+    </div>
+
+    <button type="submit" class="create-comment-btn" >ثبت پاسخ</button>
+</form>

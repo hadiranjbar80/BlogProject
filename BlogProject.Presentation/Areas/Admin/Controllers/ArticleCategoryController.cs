@@ -94,10 +94,10 @@ namespace BlogProject.Presentation.Areas.Admin.Controllers
             if (category == null)
                 return NotFound();
 
-            return View(category);
+            return PartialView(category);
         }
 
-        [HttpPost]
+        [HttpPost,ActionName("Delete")]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> DeleteConfirm(int id)
         {

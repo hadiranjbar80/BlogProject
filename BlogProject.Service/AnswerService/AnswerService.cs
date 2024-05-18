@@ -31,7 +31,8 @@ namespace BlogProject.Service.AnswerService
 
         public async Task<List<Answer>> GetAnswerByQuestionIdAsync(int questionId)
         {
-            return await _context.Answers.Where(a => a.QuestionId == questionId).ToListAsync();
+            return await _context.Answers.Include(a=>a.ApplicationUser).
+                Where(a => a.QuestionId == questionId).ToListAsync();
         }
 
         public async Task UpdateAnswerAsync(Answer answer)

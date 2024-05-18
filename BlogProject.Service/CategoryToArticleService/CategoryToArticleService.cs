@@ -39,5 +39,6 @@ namespace BlogProject.Service.CategoryToArticleService
         {
            return await _context.CategoryToArticles.Where(c => c.ArticleId == articleId).ToListAsync();
         }
+
     }
 }

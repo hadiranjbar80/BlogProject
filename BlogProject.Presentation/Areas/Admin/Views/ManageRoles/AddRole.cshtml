@@ -16,14 +16,17 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="ثبت" class="btn btn-primary" />
+                <button type="submit" class="btn btn-success btn-border-radius waves-effect">
+                    <i class="material-icons">save</i>
+                    <span>ثبت</span>
+                </button>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">بازگشت</a>
+<div class="pt-3">
+    <a asp-action="Index" class="btn btn-outline-default btn-circle waves-effect waves-circle waves-float"><i class="material-icons">keyboard_backspace</i></a>
 </div>
 
 @section Scripts {

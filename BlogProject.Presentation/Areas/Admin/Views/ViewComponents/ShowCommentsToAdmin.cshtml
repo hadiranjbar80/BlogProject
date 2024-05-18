@@ -1,0 +1,70 @@
+﻿@model List<ArticleComment>
+@if (Model.Any())
+{
+    <div class="card">
+        <div class="card-header border-transparent">
+            <h3 class="card-title">آخرین سوال‌ها</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body p-0" style="display: block;">
+            <div class="table-responsive">
+                <table class="table m-0">
+                    <thead>
+                        <tr>
+                            <th>نام کاربری</th>
+                            <th>متن نظر</th>
+                            <th>وضعیت</th>
+                            <th>تاریخ ثبت</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var comment in Model.Where(c => c.IsConfirmed == false))
+                        {
+                            <tr>
+                                <td>@comment.UserName</td>
+                                <td>@Html.Raw(comment.CommentText)</td>
+                                <td>@(comment.IsConfirmed ? "فعال" : "غیرفعال")</td>
+                                <td>@comment.DateCreated</td>
+                                <td>
+                                    <form asp-action="ConfirmComment"
+                                          asp-route-commentId="@comment.Id"
+                                          asp-controller="Home"
+                                          asp-area="Admin"
+                                          class="badge badge-success" method="post">
+
+                                        <input type="submit" value="تایید نظر" />
+                                    </form>
+                                </td>
+                                <td>
+                                    <form asp-action="DeleteComment"
+                                          asp-route-commentId="@comment.Id"
+                                          asp-controller="Home"
+                                          asp-area="Admin"
+                                          class="badge badge-danger" method="post">
+                                        <input type="submit" value="حذف نظر" />
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix" style="display: block;">
+            <form asp-action="DeleteNotConfirmedComments"
+                  asp-controller="Home"
+                  asp-area="Admin">
+                <input class="btn btn-sm btn-info float-left" type="submit" value="حذف تمام نظر‌ها" />
+            </form>
+            <form asp-action="ConfirmAllComments"
+                  asp-controller="Home"
+                  asp-area="Admin">
+                <input class="btn btn-sm btn-secondary float-right" type="submit" value="تایید همه نظرها" />
+            </form>
+        </div>
+        <!-- /.card-footer -->
+    </div>
+}

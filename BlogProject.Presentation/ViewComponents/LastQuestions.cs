@@ -1,5 +1,6 @@
-﻿using BlogProject.Service.QuestionService;
-using Microsoft.AspNetCore.Mvc;
+﻿
+using BlogProject.Domain.Models;
+using System.Globalization;
 
 namespace BlogProject.Presentation.ViewComponents
 {
@@ -15,7 +16,21 @@ namespace BlogProject.Presentation.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View("/Views/ViewComponents/LastQuestions.cshtml",await _questionService.GetLastCreatedQuestionsAsync());
+            var questions = await _questionService.GetLastCreatedQuestionsAsync();
+
+            List<ShowLastQuestionsViewModel> showQuestions = new();
+
+            foreach (var question in questions)
+            {
+                showQuestions.Add(new ShowLastQuestionsViewModel
+                {
+                    DateCreated = CommonMethods<DateTime>.GetPersianDate(question.DateCreated),
+                    Id = question.Id,
+                    Title = question.Title,
+                });
+            }
+
+            return View("/Views/ViewComponents/LastQuestions.cshtml", showQuestions);
         }
     }
 }

@@ -1,23 +1,70 @@
-﻿@model BlogProject.Domain.ViewModels.ShowArticleDetailViewModel
+﻿@model dynamic
 @{
     ViewData["Title"] = Model.Title;
 }
 
-<div class="row">
-    <div>
-       <img src="~/Images/Articles/@Model.ImageName" />
-    </div>
-    <h4>@Model.Title</h4>
-    <p>@Model.Description</p>
-    <p>@Model.DateCreated</p>
-    <a asp-action="ArticleQuestions" asp-controller="Article"
-           asp-route-articleId="@Model.Id" class="btn btn-success">
-           پرسش و پاسخ
-    </a>
-</div>
+<div class="function-fusion">
+    <div class="maindetail">
+        <div class="titlemaintext">
+            <div class="maintitlestroke">
+                <div class="mailtitle">
+                    <div class="detaildate">
+                        <img class="calendar-icon6"
+                             alt=""
+                             src="~/public/calendar.svg" />
 
+                        <div class="div35">@Model.DateCreated</div>
+                    </div>
+                    <div class="detailtitle">
+                        <b class="aspnet-core">@Model.Title</b>
+                    </div>
+                </div>
+            </div>
+            <div class="maindetailtext">
+                <h3 class="h3">
+                    <p class="p">
+                        @Html.Raw(Model.Description)
+                    </p>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="tagsec">
+        @foreach (var tag in Model.Tags)
+        {
+            <button class="tagitem2">
+                <img class="tag-icon2" alt="" src="~/public/tag.svg" />
+                <div class="frame">
+                    <div class="tag-text">@tag</div>
+                </div>
+            </button>
+        }
+    </div>
+</div>
+<div class="maincommentsec">
+    <div class="borderbottom">
+        <div class="commentsectitle">
+            <div class="div43">نظرات کاربران</div>
+            <img class="chatalt2-icon"
+                 alt=""
+                 src="~/public/chatalt2.svg" />
+        </div>
+    </div>
+    
+    @if(signInManager.IsSignedIn(User))
+    {
+        @await Component.InvokeAsync("CreateComment", Model.Id)
+    }
+    else
+    {
+        <div class="alert-info">.برای ثبت نظر باید وارد سایت شوید</div>
+    }
+
+    @await Component.InvokeAsync("ShowComments", Model.Id)
+</div>
 @section Scripts {
     @{
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }

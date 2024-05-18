@@ -10,6 +10,7 @@ namespace BlogProject.Service.ArticleService
     public interface IArticleService
     {
         Task<List<Article>> GetArticlesAsync();
+        Task<List<Article>> GetArticlesByTitleAndCategoryId(string title, int categoryId);
         Task CreateNewArticleAsync(Article article);
         Task UpdateArticleAsync(Article article);
         Task DeleteArticleAsync(Article article);

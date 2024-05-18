@@ -1,0 +1,28 @@
+﻿@model List<ShowAnswersViewModel>
+
+@if (Model.Any())
+{
+    foreach (var answer in Model)
+    {
+        <div class="actualcomment" style="padding: 10px;border-radius: 5px">
+            <div class="commenttextsec">
+                <div class="topsecdate">
+                    <div class="commentdate">
+                        <div class="div44">@answer.DateCreated</div>
+                        <img class="subtract-subtractor-icon"
+                             loading="lazy"
+                             alt=""
+                             src="~/public/vector-4.svg" />
+
+                        <div class="username">@answer.UserName</div>
+                    </div>
+                </div>
+                <div class="commenttext">
+                    <div class="div45">
+                        @Html.Raw(answer.Description)
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

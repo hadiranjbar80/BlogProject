@@ -1,0 +1,14 @@
+﻿@model NewsLetter
+<form asp-action="AddToNewsLetter" asp-controller="NewsLetter" class="email-box">
+    <button type="submit" class="submit-news-letter">
+        <img class="mail-icon" alt="" src="~/public/mail.svg" />
+    </button>
+
+    <div class="text">
+        <div class="div67">
+            <input class="news-letter" asp-for="Email" placeholder="ایمیل خود را وارد کنید" />
+        </div>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+   
+</form>

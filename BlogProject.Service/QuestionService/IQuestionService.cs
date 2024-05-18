@@ -11,12 +11,13 @@ namespace BlogProject.Service.QuestionService
     {
         Task<List<Question>> GetQuestionsAsync();
         Task<List<Question>> GetLastCreatedQuestionsAsync();
+        Task<List<Question>> GetQuestionsByArticleIdAsync(int articleId);
+        Task<List<Question>> GetQuestionByUserIdAsync(string userId);
+        Task<List<Question>> GetLastFiveQuestionsAsync();
+        Task<Question> GetQuestionByIdAsync(int id); 
         Task CreateNewQuestionAsync(Question question);
         Task UpdateQuestion(Question question);
         Task DeleteQuestionAsync(Question question);
-        Task<Question> GetQuestionByIdAsync(int id);
-        Task<List<Question>> GetQuestionsByArticleIdAsync(int articleId);
-        Task<List<Question>> GetQuestionByUserIdAsync(string userId);
         Task<List<Question>> SearchQuestionAsync(string q);
     }
 }

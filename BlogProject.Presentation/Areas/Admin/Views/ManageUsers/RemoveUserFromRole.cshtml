@@ -1,0 +1,44 @@
+﻿@model AddUserToRoleViewModel
+@{
+    ViewData["Title"] = "حذف نقش کاربر";
+}
+
+<h4>حذف نقش کاربر</h4>
+
+<hr />  
+
+<form asp-controller="ManageUsers" asp-action="RemoveUserFromRole" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+    @if (!Model.UserRoles.Any())
+    {
+        <h6 class="alert alert-warning">هیچ نقشی یافت نشد</h6>
+    }
+    else
+    {
+        for (int i = 0; i < Model.UserRoles.Count; i++)
+        {
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-check m-l-10">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" asp-for="@Model.UserRoles[i].IsSelected"> @Model.UserRoles[i].RoleName
+                        <span class="form-check-sign">
+                            <span class="check"></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <input type="hidden" asp-for="@Model.UserRoles[i].RoleName" />
+        }
+    }
+
+    <input type="hidden" asp-for="@Model.UserId" />
+    <button type="submit" class="btn btn-success btn-border-radius waves-effect">
+        <i class="material-icons">save</i>
+        <span>ثبت</span>
+    </button>
+</form>
+
+<div class="pt-3">
+    <a asp-action="Index" class="btn btn-default btn-circle waves-effect waves-circle waves-float"><i class="material-icons">keyboard_backspace</i></a>
+</div>

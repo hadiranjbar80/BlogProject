@@ -1,5 +1,4 @@
-﻿using BlogProject.Service.ArticleCategoryService;
-using Microsoft.AspNetCore.Mvc;
+﻿
 
 namespace BlogProject.Presentation.ViewComponents
 {

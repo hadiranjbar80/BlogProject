@@ -4,6 +4,7 @@ using BlogProject.Repository;
 using BlogProject.Service.ArticleCategoryService;
 using BlogProject.Service.ArticleService;
 using BlogProject.Service.CategoryToArticleService;
+using BlogProject.Service.EmailService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,18 +17,27 @@ namespace BlogProject.Presentation.Areas.Admin.Controllers
         private readonly IArticleService _articleService;
         private readonly IArticleCategoryService _articleCategoryService;
         private readonly ICategoryToArticleService _categoryToArticleService;
+        private readonly INewsLetterService _newsLetterService;
+        private readonly IEmailService _emailService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConfiguration _configuration;
         private string imageFileName = string.Empty;
 
         public ArticleController(IArticleService articleService,
             IUnitOfWork unitOfWork,
             IArticleCategoryService articleCategoryService,
-            ICategoryToArticleService categoryToArticleService)
+            ICategoryToArticleService categoryToArticleService,
+            INewsLetterService newsLetterService,
+            IEmailService emailService,
+            IConfiguration configuration)
         {
             _articleService = articleService;
             _unitOfWork = unitOfWork;
             _articleCategoryService = articleCategoryService;
             _categoryToArticleService = categoryToArticleService;
+            _newsLetterService = newsLetterService;
+            _emailService = emailService;
+            _configuration = configuration;
         }
 
         public async Task<IActionResult> Index(int pageId = 1)
@@ -43,20 +53,12 @@ namespace BlogProject.Presentation.Areas.Admin.Controllers
                     Tags = article.Tags,
                     Title = article.Title,
                     Id = article.Id,
-                    DateCreated = article.DateCreated,
+                    DateCreated = CommonMethods<DateTime>.GetPersianDate(article.DateCreated),
                 });
             }
 
             // paging 
-            const int pageSize = 5;
-            if (pageId < 1)
-                pageId = 1;
-
-            var articleCount = articleList.Count;
-            var pager = new Pager(articleCount, pageId, pageSize);
-            var skip = (pageId - 1) * pageSize;
-
-            var data = articleList.Skip(skip).Take(pager.PageSize).ToList();
+            var data = CommonMethods<ArticleListViewModel>.CalculatePagingNumber(articleList, out Pager pager, 10, pageId);
 
             ViewBag.Pager = pager;
 
@@ -121,6 +123,22 @@ namespace BlogProject.Presentation.Areas.Admin.Controllers
                         await _unitOfWork.Commit();
                     }
 
+                    // send news letter
+                    if (createArticle.SendNewsLetter)
+                    {
+                        var newsLetters = await _newsLetterService.GetNewsLetterEmailsAsync();
+
+                        var articleLink = Url.Action("ShowArticleDetail", "Article",
+                            new { articleId = article.Id }, Request.Scheme);
+
+                        var emailBody = CommonMethods<string>.ReadEmailTemplate(articleLink, article.Title, "NewsLetter.html");
+
+                        foreach (var newsLetter in newsLetters)
+                        {
+                            await _emailService.SendEmailAsync(newsLetter.Email, createArticle.Title, emailBody);
+                        }
+                    }
+
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -169,7 +187,7 @@ namespace BlogProject.Presentation.Areas.Admin.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Update(int id, UpdateArticleViewModel updateArticle)
         {
-            if(ModelState.IsValid && updateArticle.SelectedCategories.Count > 0)
+            if (ModelState.IsValid && updateArticle.SelectedCategories.Count > 0)
             {
                 var article = await _articleService.GetArticleByIdAsync(id);
 
@@ -199,7 +217,7 @@ namespace BlogProject.Presentation.Areas.Admin.Controllers
 
                 // Delete all categories from the current article and set new seleted categories.
                 await _categoryToArticleService.DeleteRelatedCategoriesByArticleId(article.Id);
-                if(updateArticle.SelectedCategories.Any() && updateArticle.SelectedCategories.Count > 0)
+                if (updateArticle.SelectedCategories.Any() && updateArticle.SelectedCategories.Count > 0)
                 {
                     foreach (var category in updateArticle.SelectedCategories)
                     {
@@ -243,17 +261,17 @@ namespace BlogProject.Presentation.Areas.Admin.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> DeleteConfirmation(int id)
         {
-            if(id == null)
+            if (id == null)
                 return NotFound();
 
             var article = await _articleService.GetArticleByIdAsync(id);
 
-            if(article == null)
+            if (article == null)
                 return NotFound();
 
             await _categoryToArticleService.DeleteRelatedCategoriesByArticleId(article.Id);
             await _articleService.DeleteArticleAsync(article);
-            await _unitOfWork.Commit(); 
+            await _unitOfWork.Commit();
 
             return RedirectToAction(nameof(Index));
         }

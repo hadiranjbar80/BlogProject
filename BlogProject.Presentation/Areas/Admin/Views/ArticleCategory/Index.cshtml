@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<BlogProject.Domain.Models.ArticleCategory>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "لیست گروه‌ها";
 }
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">گروه جدید</a>
+    <a asp-action="Create" class="btn btn-info btn-border-radius waves-effect">گروه جدید</a>
 </p>
 <table class="table">
     <thead>
@@ -32,19 +32,32 @@
                             @foreach(var subItem in item.Parent){
                                 <li>
                                     @subItem.Title
-                                    <a asp-action="Update" class="btn btn-warning" asp-route-id="@subItem.Id">ویرایش</a> |
-                                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@subItem.Id">حذف</a>
+                                    <a asp-action="Update" class="btn btn-outline-warning btn-circle waves-effect waves-circle waves-float" 
+                                        asp-route-id="@subItem.Id"><i class="material-icons">create</i></a>
+                                    <button class="btn btn-outline-danger btn-circle waves-effect waves-circle waves-floatr" onclick="DeleteCategory(@subItem.Id)"><i class="material-icons">delete_forever</i></button>
                                 </li>
                             }
                         </ul>
                     }
                 </td>
                 <td>
-                    <a asp-action="Update" class="btn btn-warning" asp-route-id="@item.Id">ویرایش</a> |
-                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">حذف</a> |
-                    <a asp-action="Create" class="btn btn-primary" asp-route-id="@item.Id">افزودن زیرگروه</a>
+                    <a asp-action="Update" class="btn btn-outline-warning btn-circle waves-effect waves-circle waves-float" 
+                        asp-route-id="@item.Id"><i class="material-icons">create</i></a>
+                    <button class="btn btn-outline-danger btn-circle waves-effect waves-circle waves-floatr" 
+                            onclick="DeleteCategory(@item.Id)">
+                        <i class="material-icons">delete_forever</i>
+                    </button>
+                    <a asp-action="Create" class="btn btn-outline-info btn-circle waves-effect waves-circle waves-float" asp-route-id="@item.Id"><i class="material-icons">control_point</i></a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+
+<partial name="_Modal" />
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}
+

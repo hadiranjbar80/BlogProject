@@ -25,5 +25,6 @@ namespace BlogProject.Domain.Models
         // navigation props
         public List<CategoryToArticle> CategoryToArticles { get; set; }
         public List<Question> Questions { get; set; }
+        public List<ArticleComment> ArticleComments { get; set; }
     }
 }

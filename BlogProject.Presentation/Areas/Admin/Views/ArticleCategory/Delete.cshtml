@@ -1,24 +1,16 @@
 ﻿@model BlogProject.Domain.Models.ArticleCategory
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "";
 }
-
-<h3>آیا از حذف این گروه اطمینان دارید؟</h3>
 <div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-    </dl>
-    
-    <form asp-action="DeleteConfirm">
+
+    <p>
+        آیا از حذف @Model.Title مطمئن هستید ؟
+    </p>
+
+    <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="حذف" class="btn btn-danger" /> |
-        <a asp-action="Index">بازگشت</a>
+        <input type="submit" value="حذف" class="btn btn-danger" />
     </form>
 </div>

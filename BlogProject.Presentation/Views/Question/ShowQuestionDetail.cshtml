@@ -1,0 +1,21 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="tagsec ques-section">
+    <div class="ques-header">
+        <div class="ques-title">@Model.Title</div>
+        <div class="ques-date">@Model.DateCreated</div>
+    </div>
+    <div class="ques-body">@Model.Description</div>
+    <div class="ques-footer">
+        <div class="ques-username">نام کاربری: @Model.UserName</div>
+    </div>
+</div>
+@await Component.InvokeAsync("ShowAnswers", Model.QuestionId)
+
+@if (signInManager.IsSignedIn(User))
+{
+    @await Component.InvokeAsync("CreateAnswer", new { userId = Model.UserId, questionId = Model.QuestionId })
+}

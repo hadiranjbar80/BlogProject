@@ -40,12 +40,20 @@ namespace BlogProject.Service.ArticleService
 
         public async Task<Article> GetArticleByIdAsync(int articleId)
         {
-            return await _repository.GetByIdAsync(articleId);
+            return await _context.Articles.Include(x=>x.ArticleComments)
+                .Include(a=>a.CategoryToArticles)
+                .FirstOrDefaultAsync(c => c.Id == articleId);
         }
 
         public async Task<List<Article>> GetArticlesAsync()
         {
             return await _repository.GetAllAsync();
+        }
+
+        public async Task<List<Article>> GetArticlesByTitleAndCategoryId(string title, int categoryId)
+        {
+            return await _context.Articles.
+                Where(a=>(a.Title.Contains(title) || a.ShortDescription.Contains(title)) || a.CategoryToArticles.Any(c=>c.CategoryId == categoryId)).ToListAsync();
         }
 
         public async Task UpdateArticleAsync(Article article)

@@ -11,7 +11,7 @@ namespace BlogProject.Domain.ViewModels
     public class AddOrEditRoleViewModel
     {
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [DisplayName("نقش")]
+        [DisplayName("عنوان")]
         public string Name { get; set; } = string.Empty;
     }
 }

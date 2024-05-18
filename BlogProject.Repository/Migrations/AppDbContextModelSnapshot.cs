@@ -62,6 +62,9 @@ namespace BlogProject.Repository.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<bool>("AccountDisabled")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -183,6 +186,48 @@ namespace BlogProject.Repository.Migrations
                     b.ToTable("ArticleCategories");
                 });
 
+            modelBuilder.Entity("BlogProject.Domain.Models.ArticleComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CommentText")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ArticleComments");
+                });
+
             modelBuilder.Entity("BlogProject.Domain.Models.CategoryToArticle", b =>
                 {
                     b.Property<int>("CategoryId")
@@ -196,6 +241,24 @@ namespace BlogProject.Repository.Migrations
                     b.HasIndex("ArticleId");
 
                     b.ToTable("CategoryToArticles");
+                });
+
+            modelBuilder.Entity("BlogProject.Domain.Models.NewsLetter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NewsLetters");
                 });
 
             modelBuilder.Entity("BlogProject.Domain.Models.Question", b =>
@@ -392,6 +455,25 @@ namespace BlogProject.Repository.Migrations
                         .HasForeignKey("ParentId");
                 });
 
+            modelBuilder.Entity("BlogProject.Domain.Models.ArticleComment", b =>
+                {
+                    b.HasOne("BlogProject.Domain.Models.Article", "Article")
+                        .WithMany("ArticleComments")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BlogProject.Domain.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("ArticleComments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Article");
+                });
+
             modelBuilder.Entity("BlogProject.Domain.Models.CategoryToArticle", b =>
                 {
                     b.HasOne("BlogProject.Domain.Models.Article", "Article")
@@ -485,11 +567,15 @@ namespace BlogProject.Repository.Migrations
                 {
                     b.Navigation("Answers");
 
+                    b.Navigation("ArticleComments");
+
                     b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("BlogProject.Domain.Models.Article", b =>
                 {
+                    b.Navigation("ArticleComments");
+
                     b.Navigation("CategoryToArticles");
 
                     b.Navigation("Questions");

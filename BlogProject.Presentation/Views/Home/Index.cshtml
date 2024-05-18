@@ -1,30 +1,39 @@
 ﻿@model List<BlogProject.Domain.ViewModels.ShowArticlesListViewModel>
 @{
     ViewData["Title"] = "آموزش برنامه نویسی";
+
+    Pager pager = new Pager();
+
+    int currentPage = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        currentPage = pager.CurrentPage;
+    }
 }
 
 @if (!Model.Any())
 {
-    <div>موردی یافت نشد </div>
+    <div class="alert-info">موردی یافت نشد </div>
 }
 else
 {
+
     foreach (var item in Model)
     {
-
-
         <div class="pic" style="width:100%">
             <div class="button">
                 <div class="date6">
                     <div class="deatils6">
                         <div class="date7">
-                            <div class="div35">@item.DateCreated.ToString("yyyy/mm/mm")</div>
+                            <div class="div35">@item.DateCreated</div>
                             <img class="calendar-icon6"
                                  alt=""
                                  src="./public/calendar.svg" />
                         </div>
                         <div class="visit6">
-                            <div class="div36">۲۰۰</div>
+                            <div class="aye-count">۲۰۰</div>
                             <img class="eyefill-icon6"
                                  alt=""
                                  src="./public/eyefill.svg" />
@@ -41,14 +50,51 @@ else
                         </div>
                     </div>
                 </div>
-                <button class="more-button">
-                    <a asp-action="ShowArticleDetail" asp-controller="Article" asp-route-articleId="@item.Id" class="div38">جرئیات</a>
-                </button>
+                <a href="/ShowArticle/@item.Id" class="more-button">
+                    <div class="div38">جرئیات</div>
+                </a>
             </div>
             <img class="pic-icon"
                  loading="lazy"
                  alt=""
                  src="./Images/Articles/@item.ImageName" />
+        </div>
+    }
+
+    @if (pager.TotalPages > 0)
+    {
+        <div class="paging-wrapper" style="padding-top: 25px">
+            <div class="paging1">
+                @if (pager.CurrentPage > 1)
+                {
+                    <a asp-action="Index" asp-controller="Home"
+                       asp-route-pageId="@(pager.CurrentPage - 1)" 
+                       asp-route-articleTitle="@ViewBag.ArticleTitle" class="chevronleft">
+                        <img class="vector-icon1"
+                             loading="lazy"
+                             alt=""
+                             src="~/public/right-arrow.svg" />
+                    </a>
+                }
+                @for (int pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                {
+                    <a asp-action="Index" asp-controller="Home"
+                       asp-route-pageId="@pge" 
+                       asp-route-articleTitle="@ViewBag.ArticleTitle" class="number @(pager.CurrentPage == pge ? "active" : "")">
+                        <div class="div51">@pge</div>
+                    </a>
+                }
+                @if (pager.CurrentPage < pager.TotalPages)
+                {
+                    <a asp-action="Index" asp-controller="Home"
+                       asp-route-pageId="@(pager.CurrentPage + 1)" 
+                       asp-route-articleTitle="@ViewBag.ArticleTitle" class="chevronright">
+                        <img class="vector-icon2"
+                             alt=""
+                             src="~/public/left-arrow.svg" />
+                    </a>
+                }
+            </div>
         </div>
     }
 }

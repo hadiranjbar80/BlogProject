@@ -1,0 +1,81 @@
+﻿@model List<ArticleComment>
+
+
+@if (Model.Any())
+{
+    @if (Model.Any(c => c.IsConfirmed == true))
+    {
+        foreach (var comment in Model.Where(c => c.ParentId == 0 && c.IsConfirmed == true))
+        {
+            <div class="actualcomment">
+                <div class="commenttextsec">
+                    <div class="topsecdate">
+                        @if (signInManager.IsSignedIn(User) && comment.UserName != User.Identity.Name)
+                        {
+                            <img class="replyoutline-icon"
+                                 loading="lazy"
+                                 alt=""
+                                 src="~/public/replyoutline.svg" onclick="ReplyComment(@comment.Id)" />
+                        }
+
+                        <div class="commentdate">
+                            <div class="div44">ازسال شده در 1401/02/26</div>
+                            <img class="subtract-subtractor-icon"
+                                 loading="lazy"
+                                 alt=""
+                                 src="~/public/vector-4.svg" />
+
+                            <div class="username">@comment.UserName</div>
+                        </div>
+                    </div>
+                    <div class="commenttext">
+                        <div class="div45">
+                            @Html.Raw(comment.CommentText)
+                        </div>
+                    </div>
+                </div>
+                <img class="divide-divider-icon"
+                     loading="lazy"
+                     alt=""
+                     src="~/public/ellipse-3@2x.png" />
+            </div>
+
+            if (Model.Any(c => c.ParentId == comment.Id))
+            {
+                foreach (var subComment in Model.Where(c => c.ParentId == comment.Id))
+                {
+                    <div class="commentresponse">
+                        <div class="commenttextsec1">
+                            <div class="responsetop">
+                                <div class="commentdate1">
+                                    <div class="div46">ازسال شده در 1401/02/26</div>
+                                    <img class="counter-counter-icon"
+                                         alt=""
+                                         src="~/public/vector-4.svg" />
+
+                                    <div class="username1">@subComment.UserName</div>
+                                </div>
+                                <img class="timer-timer-icon"
+                                     alt=""
+                                     src="~/public/ellipse-3@2x.png" />
+                            </div>
+                            <div class="commenttext1">
+                                <div class="div47">
+                                    @Html.Raw(subComment.CommentText)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    }
+    else
+    {
+        <div class="alert-info">.کامتنی برای این مقاله ثبت نشده است</div>
+    }
+}
+else
+{
+    <div class="alert-info">.کامتنی برای این مقاله ثبت نشده است</div>
+}

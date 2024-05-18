@@ -23,6 +23,8 @@ namespace BlogProject.Repository
         public DbSet<CategoryToArticle> CategoryToArticles { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<ArticleComment> ArticleComments { get; set; }
+        public DbSet<NewsLetter> NewsLetters { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +34,8 @@ namespace BlogProject.Repository
             modelBuilder.ApplyConfiguration(new CategoryToArticleMap());
             modelBuilder.ApplyConfiguration(new QuestionMap());
             modelBuilder.ApplyConfiguration(new AnswerMap());
+            modelBuilder.ApplyConfiguration(new ArticleCommentMap());
+            modelBuilder.ApplyConfiguration(new NewsLetterMap());
         }
 
     }

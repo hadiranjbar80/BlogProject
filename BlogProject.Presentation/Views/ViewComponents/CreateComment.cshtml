@@ -1,0 +1,14 @@
+﻿@model BlogProject.Domain.ViewModels.CreateCommentViewModel
+
+<form id="createCommentForm" class="createCommentForm">
+    <input type="hidden" asp-for="ArticleId"/>
+    <input type="hidden" asp-for="ParentId" />
+
+    <div class="comment-text">
+        <label class="comment-label">نظر خود را وارد کنید!</label>
+        <textarea asp-for="CommentText" class="ckeditor" id="commentText"></textarea>
+        <span class="text-danger" asp-validation-for="CommentText"></span>
+    </div>
+
+    <button type="button" class="create-comment-btn" onclick="SaveComment()">ثبت نظر</button>
+</form>

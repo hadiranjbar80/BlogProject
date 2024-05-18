@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewData["Title"] = "پرسش و پاسخ";
+
+    Pager pager = new Pager();
+
+    int currentPage = 0;
+
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        currentPage = pager.CurrentPage;
+    }
+}
+
+<div class="queslist-parent">
+    <div class="queslist">
+        <div class="questitleborder">
+            <div class="questitle">
+                <div class="quescount">
+                    <div class="div35">@Model.Count پرسش</div>
+                </div>
+                <div class="quessectitle">
+                    <h1 class="aspnet-core">پرسش و پاسخ</h1>
+                </div>
+            </div>
+        </div>
+        <div class="askquestion">
+            <div class="ques-info">برای پرسش سوال از قسمت جزئیات سوال اقدام کنید</div>
+            <form action="/Questions/@ViewBag.ArticleId" class="search-box">
+                <button type="submit" class="search-parent">
+                    <img class="search-icon" alt="" src="/public/search.svg">
+
+                    <img class="frame-child" alt="" src="/public/vector-3.svg">
+                </button>
+                <input value="@ViewBag.QuestionTitle" name="questionTitle" class="search-box-child" placeholder="جستجو سوال" type="text">
+            </form>
+        </div>
+        @foreach (var question in Model)
+        {
+            <div class="question7">
+                <a href="/ShowQuestion/@question.Id" class="actualquestitle1">
+                    <h2 class="h21">@question.Title</h2>
+                </a>
+                <div class="quesdesc1">
+                    <div class="answer1">
+                        <div class="div39">@question.AnswerCount پاسخ</div>
+                    </div>
+                    <img class="quesdesc-inner"
+                         alt=""
+                         src="~/public/vertical-line.svg" />
+
+                    <div class="quesdate1">
+                        <div class="div40">@question.DateCreated</div>
+                    </div>
+                    <img class="quesdesc-inner"
+                         alt=""
+                         src="~/public/vertical-line.svg" />
+
+                    <div class="aspnet-core2">@question.ArticleTitle</div>
+                </div>
+            </div>
+        }
+    </div>
+    @if (pager.TotalPages > 0)
+    {
+        <div class="paging-wrapper">
+            <div class="paging1">
+                @if (pager.CurrentPage > 1)
+                {
+                    <a asp-action="ShowQuestions" asp-controller="Question"
+                       asp-route-pageId="@(pager.CurrentPage - 1)"
+                       asp-route-questionTitle="@ViewBag.QuestionTitle" class="chevronleft">
+                        <img class="vector-icon1"
+                             loading="lazy"
+                             alt=""
+                             src="~/public/right-arrow.svg" />
+                    </a>
+                }
+                @for (int pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                {
+                    <a asp-action="ShowQuestions" asp-controller="Question"
+                       asp-route-pageId="@pge" asp-route-questionTitle="@ViewBag.QuestionTitle"
+                       class="number @(pager.CurrentPage == pge ? "active" : "")">
+                        <div class="div51">@pge</div>
+                    </a>
+                }
+                @if (pager.CurrentPage < pager.TotalPages)
+                {
+                    <a asp-action="ShowQuestions" asp-controller="Question"
+                       asp-route-pageId="@(pager.CurrentPage + 1)"
+                       asp-route-questionTitle="@ViewBag.QuestionTitle" class="chevronright">
+                        <img class="vector-icon2"
+                             alt=""
+                             src="~/public/left-arrow.svg" />
+                    </a>
+                }
+            </div>
+        </div>
+    }
+</div>

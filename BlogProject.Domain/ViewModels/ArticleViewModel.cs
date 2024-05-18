@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BlogProject.Domain.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,6 +32,7 @@ namespace BlogProject.Domain.ViewModels
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [DisplayName("گروه")]
         public List<int> SelectedCategories { get; set; } = new();
+        public bool SendNewsLetter { get; set; } = false;
     }
 
     [NotMapped]
@@ -46,7 +48,7 @@ namespace BlogProject.Domain.ViewModels
         [Display(Name = "کلمه‌های کلیدی")]
         public string Tags { get; set; } = string.Empty;
         [Display(Name = "‌تاریخ ایجاد")]
-        public DateTime DateCreated { get; set; }
+        public string DateCreated { get; set; } = string.Empty;
     }
 
     [NotMapped]
@@ -74,10 +76,10 @@ namespace BlogProject.Domain.ViewModels
     public class ShowArticlesListViewModel
     {
         public int Id { get; set; }
-        public string Title { get; set; }=string.Empty;
-        public string ShortDescription { get; set; }= string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string ShortDescription { get; set; } = string.Empty;
         public string ImageName { get; set; } = string.Empty;
-        public DateTime DateCreated { get; set; }
+        public string DateCreated { get; set; } = string.Empty;
     }
 
     [NotMapped]
@@ -86,8 +88,9 @@ namespace BlogProject.Domain.ViewModels
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public string Tags { get; set; } = string.Empty;
+        public string[] Tags { get; set; }
         public string ImageName { get; set; } = string.Empty;
-        public DateTime DateCreated { get; set; }
+        public string DateCreated { get; set; }
+        public List<ArticleComment> Comments { get; set; } = new();
     }
 }

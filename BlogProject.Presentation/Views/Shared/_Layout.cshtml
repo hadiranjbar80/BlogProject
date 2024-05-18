@@ -11,13 +11,14 @@
           href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" asp-append-version="true" /> 
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" asp-append-version="true" />
-    
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'></link>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 </head>
 <body>
     <div class="desktop-2">
         <main class="top-memu-parent">
             <header class="top-memu">
-                @if (User.Identity.IsAuthenticated)
+                @if (signInManager.IsSignedIn(User))
                 {
                     <a class="logout" href="/logout">خروج <img src="~/public/Logout.svg" /></a>
                 }
@@ -35,18 +36,14 @@
                 }
                 <div class="links-parent">
                     <div class="links">
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <div class="archive">
+                                <a href="/Admin/Home" class="div1">پنل ادمین</a>
+                            </div>
+                        }   
                         <div class="qa">
-                            <a href="#" class="div">پرسش و پاسخ</a>
-                        </div>
-                        <div class="archive">
-                            <a href="#" class="div1">آرشیو مقاله‌ها</a>
-                        </div>
-                        <div class="categories">
-                            <a href="#" class="div2">دسته بندی‌ها</a>
-                            <img class="chevrondown-icon"
-                                 loading="lazy"
-                                 alt=""
-                                 src="~/public/chevrondown.svg" />
+                            <a href="/Questions" class="div">پرسش و پاسخ</a>
                         </div>
                         <div class="home">
                             <a href="/" class="div3">خانه</a>
@@ -55,7 +52,7 @@
                     <img class="logosvg-icon"
                          loading="lazy"
                          alt=""
-                         src="~/public/logosvg.svg" />
+                         src="~/public/logo.png" />
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -80,17 +77,7 @@
                             <div class="qa6">
                                 <a href="#" class="div475">پرسش و پاسخ</a>
                             </div>
-                            <div class="archive6">
-                                <a href="#" class="div476">آرشیو مقاله‌ها</a>
-                            </div>
-                            <div class="categories13">
-                                <a href="#" class="div477">دسته بندی‌ها</a>
-                                <img class="chevrondown-icon6"
-                                     loading="lazy"
-                                     alt=""
-                                     src="~/public/chevrondown.svg" />
 
-                            </div>
                             <div class="home6">
                                 <a href="#" class="div478">خانه</a>
                             </div>
@@ -112,28 +99,31 @@
                         <div class="div6">خانه /</div>
                     </div>
                     <div class="navigator-home">
-                        <div class="div5">مقاله‌ها /</div>
-                    </div>
-                    <div class="navigator-home">
-                        <div class="div4">آموزش برنامه نویسی</div>
+                        <div class="div6">@ViewData["Title"]</div>
                     </div>
                 </div>
             </div>
             <section class="frame-wrapper">
                 <div class="frame-parent">
                     <div class="search-box-parent">
-                        <div class="search-box">
-                            <div class="search-parent">
-                                <img class="search-icon" alt="" src="~/public/search.svg" />
+                        <form asp-action="Index" asp-controller="Home" style="width:100%;">
+                            <div class="search-box">
+                                <button type="submit" class="search-parent">
+                                    <img class="search-icon" alt="" src="~/public/search.svg" />
 
-                                <img class="frame-child" alt="" src="~/public/vector-3.svg" />
+                                    <img class="frame-child" alt="" src="~/public/vector-3.svg" />
+                                </button>
+                                <input name="articleTitle" class="search-box-child"
+                                       placeholder="جستجو"
+                                       type="text" />
                             </div>
-                            <input class="search-box-child"
-                                   placeholder="جستجو"
-                                   type="text" />
-                        </div>
+                        </form>
                         @await Component.InvokeAsync("LastQuestions")
                         @await Component.InvokeAsync("ShowCategories")
+                        @if (ViewData["ArticleQuestionsLink"] != null)
+                        {
+                            <a href="@ViewData["ArticleQuestionsLink"]" class="btn-qa">پرسش و پاسخ</a>
+                        }
                     </div>
                     <div class="data-aggregator">
                         @RenderBody()
@@ -145,13 +135,7 @@
             <div class="news-letter-text">
                 <h1 class="h1">عضویت در خبرنامه</h1>
             </div>
-            <div class="email-box">
-                <img class="mail-icon" alt="" src="~/public/mail.svg" />
-
-                <div class="text">
-                    <div class="div67">ایمیل خود را وارد کنید</div>
-                </div>
-            </div>
+            @await Component.InvokeAsync("NewsLetter")
             <img class="footer-child"
                  loading="lazy"
                  alt=""
@@ -183,9 +167,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="~/js/site.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/ckeditor/ckeditor.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @await Html.PartialAsync("_notificationPartial")
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -1,0 +1,45 @@
+﻿@model AddUserToRoleViewModel
+@{
+    ViewData["Title"] = "افزودن نقش به کاربر";
+}
+
+<h4>افزودن نقش به کاربر</h4>
+
+<hr />
+
+@if (!Model.UserRoles.Any())
+{
+    <h6 class="alert alert-warning">هیچ نقشی یافت نشد</h6>
+}
+else
+{
+    <form asp-controller="ManageUsers" asp-action="AddUserToRole" method="post">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        @for (int i = 0; i < Model.UserRoles.Count; i++)
+        {
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-check m-l-10">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" asp-for="@Model.UserRoles[i].IsSelected"> @Model.UserRoles[i].RoleName
+                        <span class="form-check-sign">
+                            <span class="check"></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <input type="hidden" asp-for="@Model.UserRoles[i].RoleName" />
+        }
+        <input type="hidden" asp-for="@Model.UserId" />
+        <button type="submit" class="btn btn-success btn-border-radius waves-effect">
+            <i class="material-icons">save</i>
+            <span>ثبت</span>
+        </button>
+    </form>
+
+}
+
+<div class="pt-3">
+    <a asp-action="Index" class="btn btn-outline-default btn-circle waves-effect waves-circle waves-float"><i class="material-icons">keyboard_backspace</i></a>
+</div>

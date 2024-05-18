@@ -35,9 +35,18 @@ namespace BlogProject.Service.QuestionService
             return await _context.Questions.OrderByDescending(q=>q.DateCreated).Take(8).ToListAsync();
         }
 
+        public async Task<List<Question>> GetLastFiveQuestionsAsync()
+        {
+            return await _context.Questions.Include(q=>q.ApplicationUser)
+                .OrderByDescending(q=>q.DateCreated).ToListAsync();
+        }
+
         public async Task<Question> GetQuestionByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            return await _context.Questions.
+                Include(q => q.ApplicationUser)
+                .Include(q=>q.Answers)
+                .Where(q=>q.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<List<Question>> GetQuestionByUserIdAsync(string userId)
@@ -47,12 +56,16 @@ namespace BlogProject.Service.QuestionService
 
         public async Task<List<Question>> GetQuestionsAsync()
         {
-            return await _repository.GetAllAsync();
+            return await _context.Questions
+                .Include(q => q.Answers)
+                .Include(q => q.ApplicationUser)
+                .Include(q=>q.Article).ToListAsync();
         }
 
         public async Task<List<Question>> GetQuestionsByArticleIdAsync(int articleId)
         {
-            return await _context.Questions.Where(q=>q.ArticleId == articleId).ToListAsync();
+            return await _context.Questions.Include(q=>q.Answers)
+                .Where(q=>q.ArticleId == articleId).ToListAsync();
         }
 
         public async Task<List<Question>> SearchQuestionAsync(string q)
